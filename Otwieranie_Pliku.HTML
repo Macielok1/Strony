@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang = "pl">
+<head>
+<title>Palindromy</title>
+</head>
+<body>
+<script>
+    function dispFile(contents) {
+  document.getElementById('contents').innerHTML = contents;
+}
+
+function clickElem(elem) {
+    // Thx user1601638 on Stack Overflow (6/6/2018 - https://stackoverflow.com/questions/13405129/javascript-create-and-save-file )
+    var eventMouse = document.createEvent("MouseEvents");
+    eventMouse.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    elem.dispatchEvent(eventMouse);
+}
+
+function openFile(func) {
+    readFile = function(e) {
+        var file = e.target.files[0];
+        if (!file) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var contents = e.target.result;
+            fileInput.func(contents);
+            document.body.removeChild(fileInput);
+        }
+        reader.readAsText(file);
+    }
+    fileInput = document.createElement("input");
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    fileInput.onchange = readFile;
+    fileInput.func = func;
+    document.body.appendChild(fileInput);
+    clickElem(fileInput);
+}
+
+function countCharsPerLine() {
+    let text = document.getElementById('contents').innerText; 
+    if (text.trim() === "") {
+        alert("Najpierw wczytaj plik!");
+        return;
+    }
+
+    let lines = text.split('\n'); 
+    let result = ""; 
+
+    lines.forEach((line, index) => {
+        let trimmedLine = line.trim(); 
+        let charCount = trimmedLine.length; 
+        result += `Linia ${index + 1}: ${charCount} znaków\n`;
+    });
+
+    alert(result); 
+}
+function Palindrom() {
+    let txt = document.getElementById('contents').innerText;
+    if (txt.trim() === "") {
+    alert("Najpierw wczytaj plik!");
+    return;
+    }
+	let lines = txt.split('\n');
+    let result = "";
+    lines.forEach((line, index) => {
+        let trimmedLine = line.replace(/[^a-zA-Ząćęłńóśźż]/g, '').toLowerCase(); 
+        let len = trimmedLine.length; 
+        let Palindrom = true;
+        for (let i = 0; i < Math.floor(len / 2); i++) {
+        if (trimmedLine[i] !== trimmedLine[len - i - 1]) {
+            Palindrom = false;
+            break;
+            
+        }
+    } 
+    if(Palindrom === true ){
+            result += `Linia ${index + 1}: To jest palindrom\n`
+        }
+    else{
+        result += `Linia ${index + 1}: To nie jest palindrom\n`
+    }
+    });  
+    alert(result);
+}
+
+</script>
+
+<button onclick="openFile(dispFile)">Otwórz plik</button>
+<button onclick="countCharsPerLine()">Policz znaki w każdej linii</button>
+<button onclick="Palindrom()">Sprawdź palindrom</button>
+<pre id="contents"></pre>
+</body>
+</html>

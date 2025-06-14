@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Konwerter liczb</title>
+</head>
+<body>
+    <h2>Konwerter liczb na system dziesiętny</h2>
+    <form id="formularzKonwersji">
+        <label for="liczba">Wprowadź liczbę:</label>
+        <input type="text" id="liczba" required>
+        <br>
+        <label for="podstawa">Podstawa systemu (2-36):</label>
+        <input type="number" id="podstawa" min="2" max="36" required>
+        <br>
+        <button type="button" onclick="konwertujNaDziesietny()">Konwertuj</button>
+    </form>
+    <h3 id="wynik">Wynik:</h3>
+
+    <script>
+        function konwertujNaDziesietny() {
+            const liczba = document.getElementById("liczba").value;
+            const podstawa = parseInt(document.getElementById("podstawa").value);
+
+            if (isNaN(podstawa) || podstawa < 2 || podstawa > 36) {
+                document.getElementById("wynik").innerText = "Niepoprawna podstawa systemu.";
+                return;
+            }
+
+            const DziesientnaLiczba = parseInt(liczba, podstawa);
+            
+            if (isNaN(DziesientnaLiczba)) {
+                document.getElementById("wynik").innerText = "Niepoprawna liczba w danym systemie.";
+                return;
+            }
+
+            document.getElementById("wynik").innerText = DziesientnaLiczba;
+        }
+    </script>
+</body>
+</html>
